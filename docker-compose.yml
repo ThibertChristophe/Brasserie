@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_DATABASE: pointage
+      MARIADB_ROOT_PASSWORD: root
+      TZ: Europe/Paris
+    ports:
+      - "3307:3306"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
