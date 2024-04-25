@@ -1,5 +1,6 @@
 using Brasserie.Data;
 using Brasserie.DTOs;
+using Brasserie.Exceptions;
 using Brasserie.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +14,11 @@ namespace Brasserie.Services
 			_context = context;
 		}
 
-        public async Task<BrewerDTO?> GetById(long id){
+        public async Task<BrewerDTO> GetById(long id){
             Brewer? brewer = await _context.Brewers
                 .Include(b => b.Beers)
                 .FirstOrDefaultAsync(p=>p.Id == id);
-            if (brewer == null) return null;
+            if (brewer == null) throw new BrewerNotFoundException();
             BrewerDTO brewerDTO = new ()
 			{
 				Id = brewer.Id,
@@ -59,6 +60,11 @@ namespace Brasserie.Services
 
         // Liste des bières pour un Brasseur
         public async Task<List<BeerDTO>> GetBeersFromBrewer(long brewerId){
+            Brewer? brewer = await _context.Brewers
+                .Include(b => b.Beers)
+                .FirstOrDefaultAsync(p=>p.Id == brewerId);
+            if (brewer == null) throw new BrewerNotFoundException();
+            
             List<BeerDTO> beerDTOs = [];
             List<Beer> beers = await _context.Beers
                                             .Where(b => b.BrewerId == brewerId)

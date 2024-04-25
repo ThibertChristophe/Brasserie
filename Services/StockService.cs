@@ -1,5 +1,6 @@
 ﻿using Brasserie.Data;
 using Brasserie.DTOs;
+using Brasserie.Exceptions;
 using Brasserie.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,52 +15,37 @@ namespace Brasserie.Services
 			_context = context;
 		}
 
-		public async Task<StockDTO?> GetStockByWholesalerAndBeer(long beerId, long wholesalerId)
+		public async Task<StockDTO> GetStockByWholesalerAndBeer(long beerId, long wholesalerId)
 		{
 			Stock? stock = await _context.Stocks
 				.Where(stock => stock.BeerId == beerId && stock.WholesalerId == wholesalerId)
 				.FirstOrDefaultAsync();
+			
+			if(stock == null) throw new StockNotFoundException();
 
-			if(stock != null)
+			StockDTO stockDTO = new StockDTO
 			{
-				StockDTO stockDTO = new StockDTO
-				{
-					Id = stock.Id,
-					BeerId = beerId,
-					WholesalerId = wholesalerId,
-					QuantityInStock = stock.QuantityInStock,
-				};
-				return stockDTO;
-			}
-			return null;
+				Id = stock.Id,
+				BeerId = beerId,
+				WholesalerId = wholesalerId,
+				QuantityInStock = stock.QuantityInStock,
+			};
+			return stockDTO;		
 		}
 
-		public async Task<bool> DecreaseStockQuantityById(long stockId, int quantityToRemove)
-		{
-			// Recup la ligne de stock
-			Stock? stock = await _context.Stocks.FindAsync(stockId);
-			// Check si on a bien cet article et si stock suffisant
-			if (stock != null && stock.QuantityInStock >= quantityToRemove)
-			{
-				stock.QuantityInStock = stock.QuantityInStock - quantityToRemove;
-				await _context.SaveChangesAsync();
-				return true;
-			}
-			return false;
+		public async Task<StockDTO> Update(long idStock, StockDTO stock){
+			if(idStock != stock.Id) throw new BadParameterException();
+			if(stock.QuantityInStock < 0) throw new BadParameterException("Stock can't be negative");
+			Stock? stockFound = await _context.Stocks.FindAsync(idStock);
+			if(stockFound == null) throw new StockNotFoundException();
+			stockFound.QuantityInStock = stock.QuantityInStock;
+			stockFound.WholesalerId = stock.WholesalerId;
+			stockFound.BeerId = stock.BeerId;
+			await _context.SaveChangesAsync();
+
+			return stock;
 		}
 
-		public async Task<bool> IncreaseStockQuantityById(long stockId, int quantityToAdd)
-		{
-			// Recup la ligne de stock
-			Stock? stock = await _context.Stocks.FindAsync(stockId);
-			// Check si on a bien cet article 
-			if (stock != null)
-			{
-				stock.QuantityInStock = stock.QuantityInStock + quantityToAdd;
-				await _context.SaveChangesAsync();
-				return true;
-			}
-			return false;
-		}
+		// Create stock
 	}
 }

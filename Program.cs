@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Brasserie.Data;
 using Brasserie.Services;
+using Brasserie.Exceptions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -31,6 +32,10 @@ builder.Services.AddScoped<BeerService>();
 builder.Services.AddScoped<BrewerService>();
 builder.Services.AddScoped<SaleService>();
 builder.Services.AddScoped<StockService>();
+
+//Ajout du handler global d'exception
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 

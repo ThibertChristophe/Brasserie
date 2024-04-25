@@ -1,5 +1,6 @@
 ﻿using Brasserie.Data;
 using Brasserie.DTOs;
+using Brasserie.Exceptions;
 using Brasserie.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -34,10 +35,10 @@ namespace Brasserie.Services
 			return result;
 		}
 
-		public async Task<BeerDTO?> GetById(long id)
+		public async Task<BeerDTO> GetById(long id)
 		{
 			Beer? beer = await _context.Beers.Where(beer => beer.Id == id).FirstOrDefaultAsync();
-			if (beer == null) return null;
+			if (beer == null) throw new BeerNotFoundException();
 
 			BeerDTO result = new ()
 			{
@@ -49,9 +50,9 @@ namespace Brasserie.Services
 			return result;
 		}
 
-		public async Task<Beer?> Create(BeerDTO beer)
+		public async Task<Beer> Create(BeerDTO beer)
 		{
-			if (beer == null) return null;
+			if (beer == null) throw new BadParameterException();
 			Beer beerResult = new()
 			{
 				Id = beer.Id,

@@ -27,11 +27,10 @@ namespace Brasserie.Controllers
 		[HttpGet("{id}")]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(404)]
-		public async Task<ActionResult<BeerDTO>> GetBeerById([FromRoute] long id, [FromQuery] bool? brewer)
+		public async Task<ActionResult<BeerDTO>> GetBeerById([FromRoute] long id)
 		{
-			BeerDTO? beer = await _beerService.GetById(id);
-
-			return beer != null ? Ok(beer) : NotFound();
+			BeerDTO beer = await _beerService.GetById(id);
+			return Ok(beer);
 		}
 
 		[HttpPost]
@@ -39,8 +38,8 @@ namespace Brasserie.Controllers
 		[ProducesResponseType(404)]
 		public async Task<ActionResult<BeerDTO>> AddBeer(BeerDTO beerDTO)
 		{
-			Beer? result  = await _beerService.Create(beerDTO);
-			return result != null ? Created($"/api/beer/{result.Id}", result) : NotFound();
+			Beer result  = await _beerService.Create(beerDTO);
+			return Created($"/api/beer/{result.Id}", result);
 		}
 
 		[HttpDelete("{id}")]
@@ -48,8 +47,7 @@ namespace Brasserie.Controllers
 		[ProducesResponseType(404)]
 		public async Task<ActionResult> DeleteBeer([FromRoute] int id)
 		{
-			BeerDTO? beer = await _beerService.GetById(id);
-			if(beer == null) return NotFound();
+			BeerDTO beer = await _beerService.GetById(id);
 			await _beerService.Delete(beer);
 			return Ok();
 		}
