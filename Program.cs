@@ -11,7 +11,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-
 	var connectionString = builder.Configuration.GetConnectionString("ConnectionMariaDB");
 	options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
@@ -30,10 +29,11 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<BeerService>();
 builder.Services.AddScoped<BrewerService>();
+builder.Services.AddScoped<QuoteService>();
 builder.Services.AddScoped<SaleService>();
 builder.Services.AddScoped<StockService>();
 
-//Ajout du handler global d'exception
+// Ajout du Middleware d'exception
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 

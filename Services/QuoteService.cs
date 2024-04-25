@@ -8,12 +8,13 @@ namespace Brasserie.Services
     public class QuoteService{
 
         private readonly AppDbContext _context;
-        public QuoteService(AppDbContext context){
+        private readonly StockService _stockService;
+        public QuoteService(AppDbContext context, StockService stockService){
             _context = context;
+            _stockService = stockService;
         }
-        
+
         // Ajouter un Quote et ses Details
-        // Verif si stock suffisant
         // Discount -10% si > 10 boissons
         // Discount -20% si > 20 boissons
         public async Task<Quote> CreateQuote(QuoteDTO quote){
@@ -26,6 +27,16 @@ namespace Brasserie.Services
             // Pas de doublon dans Details
             if(HaveDuplicate(quote.Details)) throw new Exception("Can´t have duplicate beer in the order");
             
+             // Verif si stock suffisant
+            quote.Details.ForEach(async (detail)=>{
+                // TODO : enhance with a function able to check stock for a list of beer
+                StockDTO stockDto = await _stockService.GetStockByWholesalerAndBeer(detail.BeerId,quote.WholesalerId);
+                if(stockDto.QuantityInStock < detail.Quantity){
+                    throw new Exception($"Not enough stock for the beer id : {detail.BeerId}");
+                }
+            });
+
+
             return new Quote();
         }
 
