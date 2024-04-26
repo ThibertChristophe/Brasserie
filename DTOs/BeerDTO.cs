@@ -9,5 +9,6 @@ namespace Brasserie.DTOs
 		public double Price { get; set; }
 		public double AlcoholLevel { get; set; }
 		public long BrewerId { get; set; }
+		public string? BrewerName { get; set; }
 	}
 }

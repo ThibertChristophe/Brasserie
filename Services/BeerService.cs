@@ -20,7 +20,10 @@ namespace Brasserie.Services
 		{
 			List<BeerDTO> result = [];
 
-			List<Beer> beers = await _context.Beers.ToListAsync();
+			List<Beer> beers = await _context.Beers
+					.Include(beer => beer.Brewer)
+					.OrderBy(p=>p.BrewerId)
+					.ToListAsync();
 			beers.ForEach(beer =>
 			{
 				result.Add(new BeerDTO
@@ -30,6 +33,7 @@ namespace Brasserie.Services
 					AlcoholLevel = beer.AlcoholLevel,
 					Price = beer.Price,
 					BrewerId = beer.BrewerId,
+					BrewerName = beer.Brewer.Name
 				});
 			});
 			return result;
@@ -37,7 +41,9 @@ namespace Brasserie.Services
 
 		public async Task<BeerDTO> GetById(long id)
 		{
-			Beer? beer = await _context.Beers.FindAsync(id);
+			Beer? beer = await _context.Beers
+				.Include(beer => beer.Brewer)
+				.FirstOrDefaultAsync(p=>p.Id == id);
 			if (beer == null) throw new BeerNotFoundException();
 
 			BeerDTO result = new ()
@@ -45,7 +51,9 @@ namespace Brasserie.Services
 				Id = beer.Id,
 				Name = beer.Name,
 				AlcoholLevel = beer.AlcoholLevel,
-				Price = beer.Price
+				Price = beer.Price,
+				BrewerId = beer.BrewerId,
+				BrewerName = beer.Brewer.Name
 			};
 			return result;
 		}
@@ -53,6 +61,7 @@ namespace Brasserie.Services
 		public async Task<Beer> Create(BeerDTO beer)
 		{
 			if (beer == null) throw new BadParameterException();
+
 			Beer beerResult = new()
 			{
 				Id = beer.Id,

@@ -6,7 +6,7 @@ namespace Brasserie.Models{
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-
+        
         public long BeerId { get; set; }
 		public Beer? Beer { get; set; }
 

@@ -7,7 +7,7 @@ namespace Brasserie.Models
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public long Id { get; set; }
-		public required string Name { get; set; }
+		public string Name { get; set; } = "";
 
 		public virtual ICollection<Beer> Beers { get; set; } = [];
 	}

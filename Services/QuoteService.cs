@@ -10,10 +10,13 @@ namespace Brasserie.Services
 
         private readonly AppDbContext _context;
         private readonly StockService _stockService;
+        private readonly BeerService _beerService;
+      
 
-        public QuoteService(AppDbContext context, StockService stockService) {
+        public QuoteService(AppDbContext context, StockService stockService, BeerService beerService) {
             _context = context;
             _stockService = stockService;
+            _beerService = beerService;
         }
 
         public async Task<QuoteDTO> GetById(long id)
@@ -40,10 +43,8 @@ namespace Brasserie.Services
 
 		}
 
-        // Ajouter un Quote et ses Details
         // Modifier le stock
-        // Discount -10% si > 10 boissons
-        // Discount -20% si > 20 boissons
+        // Creer la Response avec le recap
         public async Task<Quote> CreateQuote(QuoteDTO quoteDto) {
             if (quoteDto == null) throw new BadParameterException("Null not valid");
             // Details non vide
@@ -54,38 +55,43 @@ namespace Brasserie.Services
             // Pas de doublon dans Details
             if (HaveDuplicate(quoteDto.Details)) throw new BadParameterException("Duplicate details not allowed");
 
-			// Verif si stock suffisant
-			quoteDto.Details.ForEach(async(detail) => {
-                // TODO : enhance with a function able to check stock for a list of beer
-                StockDTO stockDto = await _stockService.GetStockByWholesalerAndBeer(detail.BeerId, quoteDto.WholesalerId);
-                if (stockDto.QuantityInStock < detail.Quantity)
-                {
-					throw new BadParameterException($"Not enough stock for the beer id : {detail.BeerId}");
-				}
-            });
-
-			Quote quoteModel = new()
+            Quote quoteModel = new()
 			{
 				WholesalerId = quoteDto.WholesalerId,
-                TotalPrice = 20
+                TotalPrice = 0
                 
 			};
-			List<QuoteDetail> details = quoteDto.Details.Select(dto => new QuoteDetail
-			{
-				BeerId = dto.BeerId,
-				Quantity = dto.Quantity,
-                QuoteId = quoteModel.Id
-			}).ToList();
+            List<QuoteDetail> details = [];
+            double totalPrice = 0;
 
+            foreach (var detail in quoteDto.Details){
+                // TODO : enhance with a function able to check stock for a list of beer
+			    // Verif si stock suffisant
+                StockDTO stockDto = await _stockService.GetStockByWholesalerAndBeer(detail.BeerId, quoteDto.WholesalerId);
+                if (stockDto.QuantityInStock < detail.Quantity) throw new BadParameterException($"Not enough stock for the beer id : {detail.BeerId}");
+                BeerDTO beerDto = await _beerService.GetById(detail.BeerId);
+                totalPrice += beerDto.Price;
+                details.Add(new QuoteDetail{
+                    BeerId = detail.BeerId,
+                    Quantity = detail.Quantity,
+                    QuoteId = quoteModel.Id
+                });
+            }
+			
 			quoteModel.Details = details;
 
+            // Discount
+            totalPrice = ApplyDiscount(totalPrice,quoteDto.Details.Count);
+          
+            quoteModel.TotalPrice = totalPrice;
 			await _context.Quotes.AddAsync(quoteModel); 
 			await _context.SaveChangesAsync();
+
 			return quoteModel;
         }
     
 
-        public bool HaveDuplicate(List<QuoteDetailDTO> quoteDetails){
+        private bool HaveDuplicate(List<QuoteDetailDTO> quoteDetails){
             HashSet<long> set = new HashSet<long>();
             List<long> duplicates = new List<long>();
             foreach (QuoteDetailDTO item in quoteDetails)
@@ -98,5 +104,17 @@ namespace Brasserie.Services
             if(duplicates.Count > 0) return true;
             return false;
         }
+
+        private double ApplyDiscount(double totalPrice, int numItems)
+        {
+            double discount = 0.0;
+            if (numItems > 20) {
+                discount = 0.2;  // 20% discount
+            } else if (numItems > 10) {
+                discount = 0.1;  // 10% discount
+            }
+            return totalPrice * (1 - discount);
+        }
+
     }
 }

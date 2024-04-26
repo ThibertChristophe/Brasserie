@@ -14,7 +14,8 @@ namespace Brasserie.Models
 		public required double AlcoholLevel { get; set; }
 
 		public long BrewerId { get; set; }
-		public virtual Brewer? Brewer { get; set; }
+		[ForeignKey("BrewerId")]
+		public virtual Brewer Brewer { get; set; }
 
 	}
 }
