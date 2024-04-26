@@ -25,8 +25,8 @@ namespace Brasserie.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<BrewerDTO>> GetById([FromRoute] long id){
-            BrewerDTO? brewer = await _brewerService.GetById(id);
-            return brewer!=null ? Ok(brewer) : NotFound();
+            BrewerDTO brewer = await _brewerService.GetById(id);
+            return Ok(brewer);
         }
 
         [HttpGet("{id}/beers")]

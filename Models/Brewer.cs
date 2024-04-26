@@ -9,6 +9,6 @@ namespace Brasserie.Models
 		public long Id { get; set; }
 		public required string Name { get; set; }
 
-		public required ICollection<Beer> Beers { get; set; }
+		public virtual ICollection<Beer> Beers { get; set; } = [];
 	}
 }

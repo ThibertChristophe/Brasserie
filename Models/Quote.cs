@@ -13,7 +13,7 @@ namespace Brasserie.Models
 	
 		public Wholesaler? Wholesaler { get; set; }
 
-        public ICollection<QuoteDetail>? Details { get; set; }
+        public virtual ICollection<QuoteDetail> Details { get; set; } = [];
 
-    }
+	}
 }

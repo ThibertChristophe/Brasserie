@@ -18,13 +18,15 @@ namespace Brasserie.Exceptions
 			};
 			switch (exception)
 			{
-                case BrewerNotFoundException:
-                case BeerNotFoundException:
-				case StockNotFoundException:
+				case WholesalerFoundException _:
+				case BrewerNotFoundException _:
+                case BeerNotFoundException _:
+				case StockNotFoundException _:
+				case QuoteNotFoundException _:
 					errorResponse.Status = (int)HttpStatusCode.NotFound;
 					errorResponse.Title = exception.GetType().Name;
 					break;
-                case BadParameterException:
+				case BadParameterException _:
                     errorResponse.Status = (int)HttpStatusCode.BadRequest;
 					errorResponse.Title = exception.GetType().Name;
 					break;

@@ -12,6 +12,8 @@ namespace Brasserie.Data
 		public DbSet<Wholesaler> Wholesalers { get; set; }
 		public DbSet<Stock> Stocks { get; set; }
 		public DbSet<Sale> Sales { get; set; }
+		public DbSet<Quote> Quotes { get; set; }
+		public DbSet<QuoteDetail> QuoteDetails { get; set; }
 
 
 		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

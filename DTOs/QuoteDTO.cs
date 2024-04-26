@@ -3,7 +3,7 @@ using Brasserie.Models;
 namespace Brasserie.DTOs
 {
     public class QuoteDTO{
-        public long QuoteId { get; set; }
+        public long Id { get; set; }
 
         public long WholesalerId { get; set; }
 

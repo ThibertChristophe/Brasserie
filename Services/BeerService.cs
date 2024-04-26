@@ -37,7 +37,7 @@ namespace Brasserie.Services
 
 		public async Task<BeerDTO> GetById(long id)
 		{
-			Beer? beer = await _context.Beers.Where(beer => beer.Id == id).FirstOrDefaultAsync();
+			Beer? beer = await _context.Beers.FindAsync(id);
 			if (beer == null) throw new BeerNotFoundException();
 
 			BeerDTO result = new ()
@@ -69,7 +69,7 @@ namespace Brasserie.Services
 
 		public async Task<bool> Delete(BeerDTO beerDTO)
 		{
-			Beer? beer = await _context.Beers.Where(beer => beer.Id == beerDTO.Id).FirstOrDefaultAsync();
+			Beer? beer = await _context.Beers.FindAsync(beerDTO.Id);
 			if(beer == null) return false;
 
 			_context.Beers.Remove(beer);

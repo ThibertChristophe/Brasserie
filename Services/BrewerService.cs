@@ -18,7 +18,9 @@ namespace Brasserie.Services
             Brewer? brewer = await _context.Brewers
                 .Include(b => b.Beers)
                 .FirstOrDefaultAsync(p=>p.Id == id);
+
             if (brewer == null) throw new BrewerNotFoundException();
+
             BrewerDTO brewerDTO = new ()
 			{
 				Id = brewer.Id,

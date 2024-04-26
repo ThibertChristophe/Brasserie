@@ -20,10 +20,10 @@ namespace Brasserie.Services
 			Stock? stock = await _context.Stocks
 				.Where(stock => stock.BeerId == beerId && stock.WholesalerId == wholesalerId)
 				.FirstOrDefaultAsync();
-			
-			if(stock == null) throw new StockNotFoundException();
 
-			StockDTO stockDTO = new StockDTO
+			if (stock == null) throw new StockNotFoundException("No stock for this beer");
+
+			StockDTO stockDTO = new ()
 			{
 				Id = stock.Id,
 				BeerId = beerId,
@@ -38,6 +38,7 @@ namespace Brasserie.Services
 			if(stock.QuantityInStock < 0) throw new BadParameterException("Stock can't be negative");
 			Stock? stockFound = await _context.Stocks.FindAsync(idStock);
 			if(stockFound == null) throw new StockNotFoundException();
+
 			stockFound.QuantityInStock = stock.QuantityInStock;
 			stockFound.WholesalerId = stock.WholesalerId;
 			stockFound.BeerId = stock.BeerId;

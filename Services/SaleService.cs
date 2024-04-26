@@ -15,10 +15,10 @@ namespace Brasserie.Services
 
 		public void AddSale([FromBody] SaleDTO saleDTO)
 		{
-			if (saleDTO == null) throw new ArgumentNullException(nameof(saleDTO));
+			ArgumentNullException.ThrowIfNull(saleDTO);
 			// ajoute une sale dans la table Sale
 			// Modifie le stock ( le reduit)
-			
+
 
 			return;
 		}
