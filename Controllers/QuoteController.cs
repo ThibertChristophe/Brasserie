@@ -28,7 +28,7 @@ namespace Brasserie.Controllers
 
 		[HttpPost]
 		[ProducesResponseType(201)]
-		public async Task<ActionResult<QuoteDTO>> AddQuote([FromBody] QuoteDTO quoteDto)
+		public async Task<ActionResult<QuoteDTO>> AddQuote([FromBody] CreateQuoteRequest quoteDto)
 		{
 			Quote result = await _quoteService.CreateQuote(quoteDto);
 			return Ok();

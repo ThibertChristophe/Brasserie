@@ -48,7 +48,7 @@ namespace Brasserie.Services
 		}
 
         // Creer la Response avec le recap
-        public async Task<Quote> CreateQuote(QuoteDTO quoteDto) {
+        public async Task<Quote> CreateQuote(CreateQuoteRequest quoteDto) {
             if (quoteDto == null) throw new BadParameterException("Null not valid");
             // Details non vide
             if (quoteDto.Details == null || quoteDto.Details.Count <= 0) throw new BadParameterException("Null or empty List");
@@ -94,10 +94,10 @@ namespace Brasserie.Services
         }
     
 
-        private bool HaveDuplicate(List<QuoteDetailDTO> quoteDetails){
+        private bool HaveDuplicate(List<CreateQuoteDetailRequest> quoteDetails){
             HashSet<long> set = new HashSet<long>();
             List<long> duplicates = new List<long>();
-            foreach (QuoteDetailDTO item in quoteDetails)
+            foreach (CreateQuoteDetailRequest item in quoteDetails)
             {
                 if (!set.Add(item.BeerId))
                 {
