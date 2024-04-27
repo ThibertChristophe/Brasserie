@@ -44,7 +44,6 @@ namespace Brasserie.Services
 
 		}
 
-        // Modifier le stock
         // Creer la Response avec le recap
         public async Task<Quote> CreateQuote(QuoteDTO quoteDto) {
             if (quoteDto == null) throw new BadParameterException("Null not valid");

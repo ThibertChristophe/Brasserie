@@ -1,5 +1,8 @@
 ﻿using Brasserie.Data;
 using Brasserie.DTOs;
+using Brasserie.DTOs.Sale;
+using Brasserie.Exceptions;
+using Brasserie.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Brasserie.Services
@@ -13,14 +16,26 @@ namespace Brasserie.Services
 			_context = context;
 		}
 
-		public void AddSale([FromBody] SaleDTO saleDTO)
+		public async Task<Sale> AddSale([FromBody] CreateSaleRequest saleRequest)
 		{
-			ArgumentNullException.ThrowIfNull(saleDTO);
+			ArgumentNullException.ThrowIfNull(saleRequest);
 			// ajoute une sale dans la table Sale
-			// Modifie le stock ( le reduit)
+			Beer? beer = await _context.Beers.FindAsync(saleRequest.BeerId);
+			if(beer == null) throw new BeerNotFoundException();
+			Wholesaler? wholesaler = await _context.Wholesalers.FindAsync(saleRequest.WholesalerId);
+			if (wholesaler == null) throw new WholesalerFoundException();
 
+			Sale saleToAdd = new (){
+				BeerId = beer.Id,
+				WholesalerId = wholesaler.Id,
+				Price = saleRequest.Price,
+				Quantity = saleRequest.Quantity
+			};
+			
+			await _context.Sales.AddAsync(saleToAdd);
+			await _context.SaveChangesAsync();
 
-			return;
+			return saleToAdd;
 		}
 	}
 }
