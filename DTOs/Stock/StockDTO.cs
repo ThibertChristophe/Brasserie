@@ -11,5 +11,7 @@ namespace Brasserie.DTOs
 		public long BeerId { get; set; }
 
 		public int QuantityInStock { get; set; }
+
+		public double UnitPrice { get; set; }
 	}
 }

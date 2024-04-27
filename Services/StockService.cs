@@ -21,7 +21,7 @@ namespace Brasserie.Services
 				.Where(stock => stock.BeerId == beerId && stock.WholesalerId == wholesalerId)
 				.FirstOrDefaultAsync();
 
-			if (stock == null) throw new StockNotFoundException("No stock for this beer");
+			if (stock == null) throw new StockNotFoundException("No stock for this beer and/or wholesaler");
 
 			StockDTO stockDTO = new ()
 			{
@@ -29,6 +29,7 @@ namespace Brasserie.Services
 				BeerId = beerId,
 				WholesalerId = wholesalerId,
 				QuantityInStock = stock.QuantityInStock,
+				UnitPrice = stock.UnitPrice,
 			};
 			return stockDTO;		
 		}
@@ -42,6 +43,7 @@ namespace Brasserie.Services
 			stockFound.QuantityInStock = stock.QuantityInStock;
 			stockFound.WholesalerId = stock.WholesalerId;
 			stockFound.BeerId = stock.BeerId;
+			stockFound.UnitPrice = stock.UnitPrice;
 			await _context.SaveChangesAsync();
 
 			return stock;

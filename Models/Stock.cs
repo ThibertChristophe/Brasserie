@@ -15,5 +15,7 @@ namespace Brasserie.Models
 		public virtual Beer? Beer { get; set; }
 
 		public int QuantityInStock { get; set; }
+
+		public double UnitPrice { get; set; }
 	}
 }

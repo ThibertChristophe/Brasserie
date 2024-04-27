@@ -23,14 +23,15 @@ namespace Brasserie.Services
         public async Task<QuoteDTO> GetById(long id)
         {
 			Quote? quote = await _context.Quotes
-			    .Include(b => b.Details)
-				.FirstOrDefaultAsync(p => p.Id == id);
+			    .Include(q => q.Details)
+				.FirstOrDefaultAsync(q => q.Id == id);
 
             if (quote == null) throw new QuoteNotFoundException();
 
             QuoteDTO quoteDto = new() {
                 Id = quote.Id,
 				WholesalerId = quote.WholesalerId,
+                TotalPrice = quote.TotalPrice
 			};
 
             List<QuoteDetailDTO> detailsDtos = quote.Details.Select(detail => new QuoteDetailDTO
@@ -38,6 +39,8 @@ namespace Brasserie.Services
 				Id = detail.Id,
 				BeerId = detail.BeerId,
 				Quantity = detail.Quantity,
+                Price = detail.Price,
+
 			}).ToList();
             quoteDto.Details = detailsDtos;
 			return quoteDto;

@@ -3,6 +3,7 @@ using Brasserie.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Brasserie.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240427212005_AddPriceToQuoteDetail")]
+    partial class AddPriceToQuoteDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,9 +192,6 @@ namespace Brasserie.Migrations
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("int");
 
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("double");
-
                     b.Property<long>("WholesalerId")
                         .HasColumnType("bigint");
 
@@ -209,7 +209,6 @@ namespace Brasserie.Migrations
                             Id = 1L,
                             BeerId = 1L,
                             QuantityInStock = 10,
-                            UnitPrice = 0.0,
                             WholesalerId = 1L
                         });
                 });

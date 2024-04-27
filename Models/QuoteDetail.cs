@@ -14,5 +14,7 @@ namespace Brasserie.Models{
 	
 		public long QuoteId { get; set; }
 		public virtual Quote? Quote { get; set; }
+
+        public double Price { get; set; }
 	}
 }
