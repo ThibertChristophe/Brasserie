@@ -82,6 +82,14 @@ namespace Brasserie.Services
             return beerDTOs;
         }
 
+        public async Task DeleteBeerForBrewer(long idBrewer, long idBeer){
+            Beer? beer = await _context.Beers.FindAsync(idBeer);
+            if (beer == null) throw new BeerNotFoundException();
+            if(beer.BrewerId != idBrewer) throw new BadParameterException();
+            
+            _context.Beers.Remove(beer);
+            await _context.SaveChangesAsync();
+        }
        
     }
 }

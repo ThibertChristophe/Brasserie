@@ -36,5 +36,14 @@ namespace Brasserie.Controllers
             List<SimpleBeerDTO> beers = await _brewerService.GetBeersFromBrewer(id);
             return Ok(beers);
         }
+
+        [HttpDelete("{id}/beer/{idBeer}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult> DeleteBeerByIdForBrewer(long id, long idBeer){
+            await _brewerService.DeleteBeerForBrewer(id, idBeer);
+            return NoContent();
+        }
     }
 }

@@ -56,7 +56,7 @@ namespace Brasserie.Services
             Wholesaler? wholesaler = await _context.Wholesalers.FindAsync(quoteDto.WholesalerId);
             if (wholesaler == null) throw new WholesalerFoundException("Wholesaler not found");
             // Pas de doublon dans Details
-            if (HaveDuplicate(quoteDto.Details)) throw new BadParameterException("Duplicate details not allowed");
+            if (HaveDuplicate(quoteDto.Details)) throw new BadParameterException("Duplicate details/beer not allowed");
 
             Quote quoteModel = new()
 			{
