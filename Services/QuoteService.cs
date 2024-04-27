@@ -1,5 +1,6 @@
 using Brasserie.Data;
 using Brasserie.DTOs;
+using Brasserie.DTOs.Beer;
 using Brasserie.Exceptions;
 using Brasserie.Models;
 using Microsoft.EntityFrameworkCore;
@@ -69,7 +70,7 @@ namespace Brasserie.Services
 			    // Verif si stock suffisant
                 StockDTO stockDto = await _stockService.GetStockByWholesalerAndBeer(detail.BeerId, quoteDto.WholesalerId);
                 if (stockDto.QuantityInStock < detail.Quantity) throw new BadParameterException($"Not enough stock for the beer id : {detail.BeerId}");
-                BeerDTO beerDto = await _beerService.GetById(detail.BeerId);
+                BeerWithBrewerDTO beerDto = await _beerService.GetById(detail.BeerId);
                 totalPrice += beerDto.Price;
                 details.Add(new QuoteDetail{
                     BeerId = detail.BeerId,

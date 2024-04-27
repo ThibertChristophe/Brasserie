@@ -1,5 +1,6 @@
 using Brasserie.Data;
 using Brasserie.DTOs;
+using Brasserie.DTOs.Response;
 using Brasserie.Exceptions;
 using Brasserie.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,45 +15,44 @@ namespace Brasserie.Services
 			_context = context;
 		}
 
-        public async Task<BrewerDTO> GetById(long id){
+        public async Task<BrewerWithBeerDTO> GetById(long id){
             Brewer? brewer = await _context.Brewers
                 .Include(b => b.Beers)
                 .FirstOrDefaultAsync(p=>p.Id == id);
 
             if (brewer == null) throw new BrewerNotFoundException();
 
-            BrewerDTO brewerDTO = new ()
+            BrewerWithBeerDTO brewerDTO = new ()
 			{
 				Id = brewer.Id,
 				Name = brewer.Name,
-                Beers =  brewer.Beers.Select(beer => new BeerDTO
+                Beers =  brewer.Beers.Select(beer => new SimpleBeerDTO
                 {
                     Id = beer.Id,
                     Name = beer.Name,
                     Price = beer.Price,
-                    AlcoholLevel = beer.AlcoholLevel,
-                    BrewerId = beer.BrewerId,
+                    AlcoholLevel = beer.AlcoholLevel
                 
                 }).ToList()
 			};
             return brewerDTO;
         }
-        public async Task<List<BrewerDTO>> GetAllBrewerWithBeers(){
+        public async Task<List<BrewerWithBeerDTO>> GetAllBrewerWithBeers(){
             List<Brewer> brewersWithBeers = await _context.Brewers
                                 .Include(b=>b.Beers)
                                 .ToListAsync();
 
-            List<BrewerDTO> brewerDTOs = brewersWithBeers.Select(brewer => new BrewerDTO
+            List<BrewerWithBeerDTO> brewerDTOs = brewersWithBeers.Select(brewer => new BrewerWithBeerDTO
             {
                 Id = brewer.Id,
                 Name = brewer.Name,
-                Beers =  brewer.Beers.Select(beer => new BeerDTO
+                Beers =  brewer.Beers.Select(beer => new SimpleBeerDTO
                 {
                     Id = beer.Id,
                     Name = beer.Name,
                     Price = beer.Price,
-                    AlcoholLevel = beer.AlcoholLevel,
-                    BrewerId = beer.BrewerId,
+                    AlcoholLevel = beer.AlcoholLevel
+                   
                    
                 }).ToList()
             }).ToList();
@@ -61,23 +61,22 @@ namespace Brasserie.Services
         }
 
         // Liste des bières pour un Brasseur
-        public async Task<List<BeerDTO>> GetBeersFromBrewer(long brewerId){
+        public async Task<List<SimpleBeerDTO>> GetBeersFromBrewer(long brewerId){
             Brewer? brewer = await _context.Brewers
                 .Include(b => b.Beers)
                 .FirstOrDefaultAsync(p=>p.Id == brewerId);
             if (brewer == null) throw new BrewerNotFoundException();
             
-            List<BeerDTO> beerDTOs = [];
+            List<SimpleBeerDTO> beerDTOs = [];
             List<Beer> beers = await _context.Beers
                                             .Where(b => b.BrewerId == brewerId)
                                             .ToListAsync();
             beers.ForEach(beer => {
-                beerDTOs.Add(new BeerDTO{
+                beerDTOs.Add(new SimpleBeerDTO{
                     Id = beer.Id,
                     Name = beer.Name,
                     AlcoholLevel = beer.AlcoholLevel,
                     Price = beer.Price,
-
                 });
             });
             return beerDTOs;

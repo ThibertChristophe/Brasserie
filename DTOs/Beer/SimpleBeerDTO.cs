@@ -2,13 +2,11 @@
 
 namespace Brasserie.DTOs
 {
-	public class BeerDTO
+	public class SimpleBeerDTO
 	{
 		public long Id { get; set; }
 		public required string Name { get; set; }
 		public double Price { get; set; }
 		public double AlcoholLevel { get; set; }
-		public long BrewerId { get; set; }
-		public string? BrewerName { get; set; }
 	}
 }

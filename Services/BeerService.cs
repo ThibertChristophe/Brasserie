@@ -1,10 +1,11 @@
 ﻿using Brasserie.Data;
-using Brasserie.DTOs;
+
 using Brasserie.Exceptions;
 using Brasserie.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Brasserie.DTOs.Beer;
+using Brasserie.DTOs;
+using Brasserie.DTOs.Request;
 
 namespace Brasserie.Services
 {
@@ -16,59 +17,67 @@ namespace Brasserie.Services
 			this._context = context;
 		}
 		
-		public async Task<List<BeerDTO>> GetAll()
+		public async Task<List<BeerWithBrewerDTO>> GetAll()
 		{
-			List<BeerDTO> result = [];
+			List<BeerWithBrewerDTO> result = [];
 
 			List<Beer> beers = await _context.Beers
 					.Include(beer => beer.Brewer)
 					.OrderBy(p=>p.BrewerId)
 					.ToListAsync();
+
 			beers.ForEach(beer =>
 			{
-				result.Add(new BeerDTO
+				SimpleBrewerDTO brewerDto = new() {
+					Id = beer.Brewer.Id,
+					Name = beer.Brewer.Name
+				};
+
+				result.Add(new BeerWithBrewerDTO
 				{
 					Id = beer.Id,
 					Name = beer.Name,
 					AlcoholLevel = beer.AlcoholLevel,
 					Price = beer.Price,
-					BrewerId = beer.BrewerId,
-					BrewerName = beer.Brewer.Name
+					Brewer = brewerDto
 				});
 			});
 			return result;
 		}
 
-		public async Task<BeerDTO> GetById(long id)
+		public async Task<BeerWithBrewerDTO> GetById(long id)
 		{
 			Beer? beer = await _context.Beers
 				.Include(beer => beer.Brewer)
 				.FirstOrDefaultAsync(p=>p.Id == id);
 			if (beer == null) throw new BeerNotFoundException();
 
-			BeerDTO result = new ()
+			SimpleBrewerDTO brewerDto = new() {
+				Id = beer.Brewer.Id,
+				Name = beer.Brewer.Name
+			};
+
+			BeerWithBrewerDTO result = new ()
 			{
 				Id = beer.Id,
 				Name = beer.Name,
 				AlcoholLevel = beer.AlcoholLevel,
 				Price = beer.Price,
-				BrewerId = beer.BrewerId,
-				BrewerName = beer.Brewer.Name
+				Brewer = brewerDto
 			};
 			return result;
 		}
 
-		public async Task<Beer> Create(BeerDTO beer)
+		public async Task<Beer> Create(CreateBeerRequest beer)
 		{
 			if (beer == null) throw new BadParameterException();
 
 			Beer beerResult = new()
 			{
-				Id = beer.Id,
 				Name = beer.Name,
 				AlcoholLevel = beer.AlcoholLevel,
 				Price = beer.Price,
-				BrewerId= beer.BrewerId,
+				BrewerId = beer.BrewerId
 			};
 
 			_context.Beers.Add(beerResult);
@@ -76,7 +85,7 @@ namespace Brasserie.Services
 			return beerResult;
 		}
 
-		public async Task<bool> Delete(BeerDTO beerDTO)
+		public async Task<bool> Delete(BeerWithBrewerDTO beerDTO)
 		{
 			Beer? beer = await _context.Beers.FindAsync(beerDTO.Id);
 			if(beer == null) return false;
