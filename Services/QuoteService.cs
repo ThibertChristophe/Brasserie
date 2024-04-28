@@ -72,12 +72,13 @@ namespace Brasserie.Services
 			    // Verif si stock suffisant
                 StockDTO stockDto = await _stockService.GetStockByWholesalerAndBeer(detail.BeerId, quoteDto.WholesalerId);
                 if (stockDto.QuantityInStock < detail.Quantity) throw new BadParameterException($"Not enough stock for the beer id : {detail.BeerId}");
-                BeerWithBrewerDTO beerDto = await _beerService.GetById(detail.BeerId);
-                totalPrice += beerDto.Price;
+                // Prix de la biere du stock du wholesaler
+                totalPrice += stockDto.UnitPrice * detail.Quantity;
                 details.Add(new QuoteDetail{
                     BeerId = detail.BeerId,
                     Quantity = detail.Quantity,
-                    QuoteId = quoteModel.Id
+                    QuoteId = quoteModel.Id,
+                    Price = stockDto.UnitPrice * detail.Quantity,
                 });
             }
 			
