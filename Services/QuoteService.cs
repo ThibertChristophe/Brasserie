@@ -15,7 +15,7 @@ namespace Brasserie.Services
         private readonly IBeerService _beerService;
       
 
-        public QuoteService(AppDbContext context, StockService stockService, BeerService beerService) {
+        public QuoteService(AppDbContext context, IStockService stockService, IBeerService beerService) {
             _context = context;
             _stockService = stockService;
             _beerService = beerService;

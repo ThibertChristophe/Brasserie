@@ -9,7 +9,7 @@ using Brasserie.DTOs.Request;
 
 namespace Brasserie.Services
 {
-	public class BeerService
+	public class BeerService : IBeerService
 	{
 		private readonly AppDbContext _context;
 

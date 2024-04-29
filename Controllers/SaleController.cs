@@ -11,7 +11,6 @@ namespace Brasserie.Controllers
 	[Route("api/sale")]
 	public class SaleController : ControllerBase
 	{
-
 		private readonly IStockService _stockService;
 		private readonly ISaleService _saleService;
 
