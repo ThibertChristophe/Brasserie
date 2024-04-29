@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Brasserie.Services
 {
-	public class BrewerService
+	public class BrewerService : IBrewerService
 	{
        private readonly AppDbContext _context;
 

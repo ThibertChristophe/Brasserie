@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Brasserie.Services
 {
-	public class SaleService
+	public class SaleService : ISaleService
 	{
 		private readonly AppDbContext _context;
 
@@ -16,7 +16,7 @@ namespace Brasserie.Services
 			_context = context;
 		}
 
-		public async Task<Sale> AddSale([FromBody] CreateSaleRequest saleRequest)
+		public async Task<Sale> AddSale(CreateSaleRequest saleRequest)
 		{
 			ArgumentNullException.ThrowIfNull(saleRequest);
 			// ajoute une sale dans la table Sale

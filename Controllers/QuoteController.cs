@@ -9,9 +9,9 @@ namespace Brasserie.Controllers
 	[Route("api/quote")]
 	public class QuoteController : ControllerBase
 	{
-		private readonly QuoteService _quoteService;
+		private readonly IQuoteService _quoteService;
 
-		public QuoteController(QuoteService quoteService)
+		public QuoteController(IQuoteService quoteService)
 		{
 			_quoteService = quoteService;
 		}

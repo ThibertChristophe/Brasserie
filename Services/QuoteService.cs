@@ -7,11 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Brasserie.Services
 {
-    public class QuoteService {
+    public class QuoteService : IQuoteService
+    {
 
         private readonly AppDbContext _context;
-        private readonly StockService _stockService;
-        private readonly BeerService _beerService;
+        private readonly IStockService _stockService;
+        private readonly IBeerService _beerService;
       
 
         public QuoteService(AppDbContext context, StockService stockService, BeerService beerService) {
@@ -95,7 +96,7 @@ namespace Brasserie.Services
         }
     
 
-        private bool HaveDuplicate(List<CreateQuoteDetailRequest> quoteDetails){
+        public bool HaveDuplicate(List<CreateQuoteDetailRequest> quoteDetails){
             HashSet<long> set = new HashSet<long>();
             List<long> duplicates = new List<long>();
             foreach (CreateQuoteDetailRequest item in quoteDetails)
@@ -109,7 +110,7 @@ namespace Brasserie.Services
             return false;
         }
 
-        private double ApplyDiscount(double totalPrice, int numItems)
+        public double ApplyDiscount(double totalPrice, int numItems)
         {
             double discount = 0.0;
             if (numItems > 20) {

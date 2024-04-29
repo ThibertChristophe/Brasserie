@@ -11,9 +11,9 @@ namespace Brasserie.Controllers
 	[Route("api/beer")]
 	public class BeerController : ControllerBase
 	{
-		private readonly BeerService _beerService;
+		private readonly IBeerService _beerService;
 
-		public BeerController(BeerService beerService)
+		public BeerController(IBeerService beerService)
 		{
 			this._beerService = beerService;
 		}

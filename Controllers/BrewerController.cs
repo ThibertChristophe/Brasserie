@@ -10,9 +10,9 @@ namespace Brasserie.Controllers
     [ApiController]
     [Route("api/brewer")]
     public class BrewerController : ControllerBase{
-        private readonly BrewerService _brewerService;
+        private readonly IBrewerService _brewerService;
 
-        public BrewerController(BrewerService brewerService){
+        public BrewerController(IBrewerService brewerService){
             _brewerService = brewerService;
         }
 

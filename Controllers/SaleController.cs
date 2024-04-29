@@ -12,10 +12,10 @@ namespace Brasserie.Controllers
 	public class SaleController : ControllerBase
 	{
 
-		private readonly StockService _stockService;
-		private readonly SaleService _saleService;
+		private readonly IStockService _stockService;
+		private readonly ISaleService _saleService;
 
-		public SaleController(SaleService saleService, StockService stockService)
+		public SaleController(ISaleService saleService, IStockService stockService)
 		{
 			_saleService = saleService;
 			_stockService = stockService;

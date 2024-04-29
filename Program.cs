@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Brasserie.Data;
 using Brasserie.Services;
 using Brasserie.Exceptions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -27,19 +28,15 @@ builder.Services.AddCors(options =>
 		});
 });
 
-
 // Ajout du Middleware d'exception
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-
-builder.Services.AddScoped<BeerService>();
-builder.Services.AddScoped<BrewerService>();
-builder.Services.AddScoped<QuoteService>();
-builder.Services.AddScoped<SaleService>();
-builder.Services.AddScoped<StockService>();
-
-
+builder.Services.AddScoped<IBeerService, BeerService>();
+builder.Services.AddScoped<IBrewerService, BrewerService>();
+builder.Services.AddScoped<IQuoteService, QuoteService>();
+builder.Services.AddScoped<ISaleService, SaleService>();
+builder.Services.AddScoped<IStockService, StockService>();
 
 var app = builder.Build();
 

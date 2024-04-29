@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Brasserie.Services
 {
-	public class StockService
+	public class StockService : IStockService
 	{
 		private readonly AppDbContext _context;
 

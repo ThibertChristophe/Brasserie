@@ -8,8 +8,8 @@ namespace Brasserie.Controllers
 	[Route("api/stock")]
 	public class StockController : ControllerBase
 	{
-        private readonly StockService _stockService;
-        public StockController(StockService service){
+        private readonly IStockService _stockService;
+        public StockController(IStockService service){
             _stockService = service;
         }
 
