@@ -1,4 +1,4 @@
-namespace Brasserie.DTOs.Response
+namespace Brasserie.DTOs.Brewer
 {
     public class BrewerWithBeerDTO{
         public long Id { get; set; }

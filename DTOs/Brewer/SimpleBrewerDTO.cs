@@ -1,6 +1,6 @@
 using Brasserie.Models;
 
-namespace Brasserie.DTOs
+namespace Brasserie.DTOs.Brewer
 {
 	public class SimpleBrewerDTO
 	{

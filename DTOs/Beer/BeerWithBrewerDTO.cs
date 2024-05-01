@@ -1,4 +1,5 @@
-﻿using Brasserie.Models;
+﻿using Brasserie.DTOs.Brewer;
+using Brasserie.Models;
 
 namespace Brasserie.DTOs.Beer
 {

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Brasserie.DTOs.Beer;
 using Brasserie.DTOs;
 using Brasserie.DTOs.Request;
+using Brasserie.DTOs.Wholesaler;
+using Brasserie.DTOs.Brewer;
 
 namespace Brasserie.Services
 {
@@ -94,5 +96,7 @@ namespace Brasserie.Services
 			await _context.SaveChangesAsync();
 			return true;
 		}
+
+	
 	}
 }

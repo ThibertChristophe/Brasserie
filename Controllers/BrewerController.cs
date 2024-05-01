@@ -1,6 +1,6 @@
 
 using Brasserie.DTOs;
-using Brasserie.DTOs.Response;
+using Brasserie.DTOs.Brewer;
 using Brasserie.Models;
 using Brasserie.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -45,5 +45,14 @@ namespace Brasserie.Controllers
             await _brewerService.DeleteBeerForBrewer(id, idBeer);
             return NoContent();
         }
+
+        [HttpGet("/test")]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(404)]
+		public async Task<ActionResult<List<BrewerWithBeerDTO>>> ListBeer()
+		{
+			List<BrewerWithBeerAndWholesalers> beers = await _brewerService.GetAllWithBeerWithWholesaler();
+			return Ok(beers);
+		}
     }
 }

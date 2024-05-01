@@ -1,13 +1,15 @@
 using Brasserie.DTOs;
-using Brasserie.DTOs.Response;
+using Brasserie.DTOs.Brewer;
+
 
 namespace Brasserie.Services
 {
     public interface IBrewerService
     {
-        public  Task<BrewerWithBeerDTO> GetById(long id);
-        public Task<List<BrewerWithBeerDTO>> GetAllBrewerWithBeers();
-        public Task<List<SimpleBeerDTO>> GetBeersFromBrewer(long brewerId);
-        public Task DeleteBeerForBrewer(long idBrewer, long idBeer);
+        Task<BrewerWithBeerDTO> GetById(long id);
+        Task<List<BrewerWithBeerDTO>> GetAllBrewerWithBeers();
+        Task<List<SimpleBeerDTO>> GetBeersFromBrewer(long brewerId);
+        Task DeleteBeerForBrewer(long idBrewer, long idBeer);
+        Task<List<BrewerWithBeerAndWholesalers>> GetAllWithBeerWithWholesaler();
     }
 }
