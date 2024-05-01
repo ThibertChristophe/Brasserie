@@ -9,10 +9,10 @@ namespace Brasserie.Models
 
 		public long WholesalerId { get; set; }
 		[ForeignKey("WholesalerId")] // cascade de delete si on efface un wholesaler
-		public virtual required Wholesaler Wholesaler { get; set; }
+		public virtual Wholesaler Wholesaler { get; set; }
 
 		public long BeerId { get; set; }
-		public virtual required Beer Beer { get; set; }
+		public virtual Beer Beer { get; set; }
 
 		public int QuantityInStock { get; set; }
 

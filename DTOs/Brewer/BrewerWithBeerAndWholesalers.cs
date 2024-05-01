@@ -6,7 +6,6 @@ namespace Brasserie.DTOs.Brewer
     {
         public long Id { get; set; }
         public required string Name { get; set; }
-
-        public List<BeerWithWholesalers> Beers { get; set; } = [];
+        public List<BeerWithWholesalersDTO> Beers { get; set; } = [];
     }
 }

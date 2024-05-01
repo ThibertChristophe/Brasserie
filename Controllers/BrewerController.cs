@@ -46,10 +46,10 @@ namespace Brasserie.Controllers
             return NoContent();
         }
 
-        [HttpGet("/test")]
+        [HttpGet("beers/wholesaler")]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(404)]
-		public async Task<ActionResult<List<BrewerWithBeerDTO>>> ListBeer()
+		public async Task<ActionResult<List<BrewerWithBeerAndWholesalers>>> BrewerWithBeerAndWholesaler()
 		{
 			List<BrewerWithBeerAndWholesalers> beers = await _brewerService.GetAllWithBeerWithWholesaler();
 			return Ok(beers);

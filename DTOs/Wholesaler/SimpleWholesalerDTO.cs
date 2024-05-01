@@ -1,6 +1,6 @@
 namespace Brasserie.DTOs.Wholesaler
 {
-    public class SimpleWholesaler
+    public class SimpleWholesalerDTO
     {
 		public required string Name { get; set; }
     }

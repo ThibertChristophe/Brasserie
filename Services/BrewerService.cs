@@ -113,16 +113,16 @@ namespace Brasserie.Services
                 foreach( var beer in brewer.Beers){
 
                     List<Stock> stocks = await _context.Stocks.Include(s=>s.Wholesaler).Where(s=>s.BeerId == beer.Id).ToListAsync();
-                    List<SimpleWholesaler> whosalersDto = [];
+                    List<SimpleWholesalerDTO> whosalersDto = [];
 
                     foreach (var stock in stocks){
-                        SimpleWholesaler wholesaler = new(){
+                        SimpleWholesalerDTO wholesaler = new(){
                             Name = stock.Wholesaler.Name
                         };
                         whosalersDto.Add(wholesaler);
                     }
 
-                    brewerDto.Beers.Add(new BeerWithWholesalers
+                    brewerDto.Beers.Add(new BeerWithWholesalersDTO
                     {
                         Id = beer.Id,
                         Name = beer.Name,
