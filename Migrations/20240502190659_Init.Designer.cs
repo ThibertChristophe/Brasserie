@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Brasserie.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240427212146_AddUnitPriceToStock")]
-    partial class AddUnitPriceToStock
+    [Migration("20240502190659_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,6 +212,14 @@ namespace Brasserie.Migrations
                             Id = 1L,
                             BeerId = 1L,
                             QuantityInStock = 10,
+                            UnitPrice = 0.0,
+                            WholesalerId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            BeerId = 2L,
+                            QuantityInStock = 20,
                             UnitPrice = 0.0,
                             WholesalerId = 1L
                         });

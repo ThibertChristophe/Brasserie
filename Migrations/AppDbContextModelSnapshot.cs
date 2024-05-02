@@ -211,6 +211,14 @@ namespace Brasserie.Migrations
                             QuantityInStock = 10,
                             UnitPrice = 0.0,
                             WholesalerId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            BeerId = 2L,
+                            QuantityInStock = 20,
+                            UnitPrice = 0.0,
+                            WholesalerId = 1L
                         });
                 });
 
