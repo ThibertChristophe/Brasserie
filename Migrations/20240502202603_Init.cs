@@ -202,7 +202,8 @@ namespace Brasserie.Migrations
                 values: new object[,]
                 {
                     { 1L, 12.0, 1L, "Leffe Blonde", 4.0 },
-                    { 2L, 4.0, 1L, "Jupiler Kriek", 2.0 }
+                    { 2L, 4.0, 1L, "Jupiler Kriek", 2.0 },
+                    { 3L, 3.0, 2L, "Maes 25", 3.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -210,8 +211,9 @@ namespace Brasserie.Migrations
                 columns: new[] { "Id", "BeerId", "QuantityInStock", "UnitPrice", "WholesalerId" },
                 values: new object[,]
                 {
-                    { 1L, 1L, 10, 0.0, 1L },
-                    { 2L, 2L, 20, 0.0, 1L }
+                    { 1L, 1L, 10, 2.5, 1L },
+                    { 2L, 2L, 20, 3.0, 1L },
+                    { 3L, 3L, 30, 3.5, 2L }
                 });
 
             migrationBuilder.CreateIndex(

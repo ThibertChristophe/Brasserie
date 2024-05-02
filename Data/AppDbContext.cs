@@ -39,7 +39,8 @@ namespace Brasserie.Data
 
 			modelBuilder.Entity<Beer>().HasData(
 				new Beer { Id = 1, Name = "Leffe Blonde", AlcoholLevel = 12, Price = 4, BrewerId = 1 },
-				new Beer { Id = 2, Name = "Jupiler Kriek", AlcoholLevel = 4, Price = 2, BrewerId = 1 });
+				new Beer { Id = 2, Name = "Jupiler Kriek", AlcoholLevel = 4, Price = 2, BrewerId = 1 },
+				new Beer { Id = 3, Name = "Maes 25", AlcoholLevel = 3, Price = 3, BrewerId = 2 });
 
 			// modelBuilder.Entity<Beer>().HasData(
 			// 	new Beer { Id = 2, Name = "Jupiler Kriek", AlcoholLevel = 4, Price = 2, BrewerId = 1 });
@@ -52,8 +53,9 @@ namespace Brasserie.Data
 			// 	new Wholesaler { Id = 2, Name = "Second Grossiste" });
 
 			modelBuilder.Entity<Stock>().HasData(
-				new Stock { Id = 1, BeerId = 1, WholesalerId = 1, QuantityInStock = 10 },
-				new Stock { Id = 2, BeerId = 2, WholesalerId = 1, QuantityInStock = 20 });
+				new Stock { Id = 1, BeerId = 1, WholesalerId = 1, QuantityInStock = 10, UnitPrice = 2.5 },
+				new Stock { Id = 2, BeerId = 2, WholesalerId = 1, QuantityInStock = 20, UnitPrice = 3 },
+				new Stock { Id = 3, BeerId = 3, WholesalerId = 2, QuantityInStock = 30, UnitPrice = 3.5 });
 
 		}
 	}

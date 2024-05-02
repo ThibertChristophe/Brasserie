@@ -16,6 +16,6 @@ namespace Brasserie.Models
 
 		public int QuantityInStock { get; set; }
 
-		public double UnitPrice { get; set; }
+		public required double UnitPrice { get; set; }
 	}
 }

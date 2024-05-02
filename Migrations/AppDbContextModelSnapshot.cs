@@ -64,6 +64,14 @@ namespace Brasserie.Migrations
                             BrewerId = 1L,
                             Name = "Jupiler Kriek",
                             Price = 2.0
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AlcoholLevel = 3.0,
+                            BrewerId = 2L,
+                            Name = "Maes 25",
+                            Price = 3.0
                         });
                 });
 
@@ -209,7 +217,7 @@ namespace Brasserie.Migrations
                             Id = 1L,
                             BeerId = 1L,
                             QuantityInStock = 10,
-                            UnitPrice = 0.0,
+                            UnitPrice = 2.5,
                             WholesalerId = 1L
                         },
                         new
@@ -217,8 +225,16 @@ namespace Brasserie.Migrations
                             Id = 2L,
                             BeerId = 2L,
                             QuantityInStock = 20,
-                            UnitPrice = 0.0,
+                            UnitPrice = 3.0,
                             WholesalerId = 1L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            BeerId = 3L,
+                            QuantityInStock = 30,
+                            UnitPrice = 3.5,
+                            WholesalerId = 2L
                         });
                 });
 
