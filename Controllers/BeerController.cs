@@ -26,7 +26,7 @@ namespace Brasserie.Controllers
 			return Ok(beers);
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("{id:long}")]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(404)]
 		public async Task<ActionResult<BeerWithBrewerDTO>> GetBeerById([FromRoute] long id)
@@ -44,14 +44,15 @@ namespace Brasserie.Controllers
 			return Created($"/api/beer/{result.Id}", result);
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("{id:long}")]
 		[ProducesResponseType(200)]
 		[ProducesResponseType(404)]
-		public async Task<ActionResult> DeleteBeer([FromRoute] int id)
+		public async Task<ActionResult> DeleteBeer([FromRoute] long id)
 		{
 			BeerWithBrewerDTO beer = await _beerService.GetById(id);
 			await _beerService.Delete(beer);
-			return Ok();
+			return NoContent();
 		}
 	}
 }
+
